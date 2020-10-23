@@ -5,15 +5,15 @@
   "main": "src/main.js",
   "private": true,
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder -w --x64"
   },
   "author": "Paweł Mrowiec <contact@pawel-mrowiec.dev> (https://pawel-mrowiec.dev/)",
   "license": "ISC",
   "devDependencies": {
+    "electron": "^10.1.4",
+    "electron-builder": "^22.9.1",
     "eslint": "^7.11.0",
     "prettier": "^2.1.2"
-  },
-  "dependencies": {
-    "electron": "^10.1.4"
   }
 }

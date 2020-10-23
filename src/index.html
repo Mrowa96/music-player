@@ -6,8 +6,52 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   </head>
   <body>
+    <p>Music player</p>
+
+    <label for="music-dir-path">Music directory path: </label>
+    <input type="text" id="music-dir-path" />
+
+    <ul id="music-list"></ul>
+
     <script>
-      console.log(process);
+      const fs = require('fs');
+      const path = require('path');
+      const musicDirPathControl = document.getElementById('music-dir-path');
+      const musicListElement = document.getElementById('music-list');
+
+      musicDirPathControl.addEventListener('input', function handleInput() {
+        console.log(this.value);
+
+        fs.readdir(path.resolve(this.value), function handleReadMusicDirectory(error, files) {
+          while (musicListElement.firstChild) {
+            musicListElement.removeChild(musicListElement.lastChild);
+          }
+
+          if (error) {
+            const errorElement = document.createElement('code');
+
+            errorElement.textContent = error.message;
+
+            musicListElement.appendChild(errorElement);
+
+            return;
+          }
+
+          for (let songFileName of files) {
+            const songWrapperElement = document.createElement('li');
+            const songNameElement = document.createElement('p');
+            const songElement = document.createElement('audio');
+
+            songNameElement.textContent = songFileName;
+            songElement.controls = true;
+            songElement.src = musicDirPathControl.value + '\\' + songFileName;
+
+            songWrapperElement.appendChild(songNameElement);
+            songWrapperElement.appendChild(songElement);
+            musicListElement.appendChild(songWrapperElement);
+          }
+        });
+      });
     </script>
   </body>
 </html>
